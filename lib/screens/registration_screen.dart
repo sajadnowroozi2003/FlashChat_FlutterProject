@@ -2,6 +2,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flash_chat_starting_project/components/rounded_button.dart';
 import 'package:flash_chat_starting_project/screens/chat_screen.dart';
+import 'package:flash_chat_starting_project/services/auth_service.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 import '/constants.dart';
@@ -19,7 +20,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
-  var auth = FirebaseAuth.instance;
   String? errorMassage = '';
   bool errorOccurred = false, showSpinner = false;
   @override
@@ -107,8 +107,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         errorOccurred = false;
                       });
                       ;
-                      await auth
-                          .createUserWithEmailAndPassword(
+                      await AuthService()
+                          .createUser(
                         email: _emailController.text,
                         password: _passwordController.text,
                       )
